@@ -16,6 +16,7 @@ class LocationData:
     name: str
     id: int
     region: str
+    requirements: list[str] | None = None
 
 
 ACHIEVEMENTS: list[LocationData] = [
