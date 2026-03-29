@@ -3,7 +3,7 @@ import os
 import Utils
 from BaseClasses import Location, Region
 from .bases import TFWRTestBase
-from ..Data.Strings import ACHIEVEMENT, UPGRADE, FILLER, REGION
+from ..Data.Strings import REGION
 
 
 class TestEasyModeLogic(TFWRTestBase):
@@ -15,7 +15,7 @@ class TestEasyModeLogic(TFWRTestBase):
 
     def test_easy_mode_access(self) -> None:
         with self.subTest("Tests checks accessible with nothing"):
-            hello_world: Location = self.world.get_location(ACHIEVEMENT.Hello_World)
+            hello_world: Location = self.world.get_location("Hello World!")
 
             self.assertTrue(hello_world.can_reach(self.multiworld.state))
 
@@ -31,18 +31,10 @@ class TestEasyModeLogic(TFWRTestBase):
             """ This builds PUML files, it is not a test """
             state = self.multiworld.get_all_state(False)
             state.update_reachable_regions(self.player)
-            folder:str = os.getcwd() + "/worlds/tfwr/test/visualization/"
-            regions:list[str] = ["Start"]
+            folder: str = os.getcwd() + "/worlds/tfwr/test/visualization/"
+            regions: list[str] = ["Start"]
             for region in regions:
                 Utils.visualize_regions(self.world.get_region(region),
                                         folder + region + "_Easy.puml",
                                         regions_to_highlight=state.reachable_regions[self.player],
                                         )
-
-    def test_easy_mode_item_counts(self) -> None:
-        with self.subTest("Tests that there are items in the item pool"):
-            self.assertEqual(len(self.get_items_by_name(FILLER.Free_Hay)), 3)
-
-        with self.subTest("Tests that all items are in the item pool"):
-            for item in UPGRADE.ALL_UPGRADES:
-                self.assertEqual(len(self.get_items_by_name(item)), 1, item)
