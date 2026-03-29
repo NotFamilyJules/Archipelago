@@ -131,24 +131,45 @@ class UPGRADE:
     Grass = "Grass"
     Expand = "Expand"
     Plant = "Plant"
+    """Plant anything. Also gives bushes."""
     Carrot = "Carrot"
     Watering = "Watering"
     Cactus = "Cactus"
     Fertilizer = "Fertilizer"
     Sunflowers = "Sunflowers"
     Mazes = "Mazes"
+    """Unlocks or expands the max maze size"""
     TopHat = "Top Hat"
     Trees = "Trees"
     Pumpkins = "Pumpkins"
     Polyculture = "Polyculture"
     Dinosaurs = "Dinosaurs"
     Megafarm = "Megafarm"
-    Unknown = "Unknown"
-    # ToDo: Literally unknown, I have no idea what this upgrade is, I haven't beaten the game yet. Shame on me.
-    ALL_UPGRADES: list[str] = [Loop, Drone_Speed, Hats, Grass, Expand, Plant, Carrot, Watering, Cactus, Fertilizer, Sunflowers,
-                    Mazes, TopHat, Trees, Pumpkins, Polyculture,
-                    Dinosaurs, Megafarm, Unknown
-                    ]
+    """Drones"""
+    TheFarmersRemains = "TheFarmersRemains"
+    Debug = "Debug"
+    MoreDebug = "More Debug"
+    Timing = "Timing"
+    Simulation = "Simulation"
+    Leaderboard = "Leaderboard"
+    Operators = "Operators"
+    Senses = "Senses"
+    Variables = "Variables"
+    Functions = "Functions"
+    Import = "Import"
+    Utilities = "Utilities"
+    Lists = "Lists"
+    Dictionaries = "Dictionaries"
+    Costs = "Costs"
+    Unlock = "Unlock"
+    ALL_UPGRADES: list[str] = [
+        Loop, Drone_Speed, Hats, Grass, Expand, Plant, Carrot, Watering, Cactus, Fertilizer, Sunflowers,
+        Mazes, TopHat, Trees, Pumpkins, Polyculture,
+        Dinosaurs, Megafarm, TheFarmersRemains,
+        Debug, MoreDebug, Timing, Simulation, Leaderboard,
+        Operators, Senses, Variables, Functions, Import, Utilities,
+        Lists, Dictionaries, Costs, Unlock
+    ]
 
 
 class FILLER:
