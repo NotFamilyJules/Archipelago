@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
+from pathlib import Path
+from yaml import safe_load
 
 from BaseClasses import Location, Region
-
-from .Data.Strings import ACHIEVEMENT, REGION
+from .Data.Strings import REGION
 
 if TYPE_CHECKING:
     from .world import TFWRWorld
@@ -19,31 +20,13 @@ class LocationData:
     requirements: list[str] | None = None
 
 
-ACHIEVEMENTS: list[LocationData] = [
-    LocationData(ACHIEVEMENT.Hello_World, 10000, REGION.Start),
-    LocationData(ACHIEVEMENT.Infinite_Loop, 10001, REGION.Start),
-    LocationData(ACHIEVEMENT.It_Grew, 10002, REGION.Loops),
-    LocationData(ACHIEVEMENT.Error, 10003, REGION.Start),
-    LocationData(ACHIEVEMENT.Acrobat, 10004, REGION.Start),
-    LocationData(ACHIEVEMENT.Bushes, 10005, REGION.Loops),
-    LocationData(ACHIEVEMENT.Thousand_Hay, 10006, REGION.Start),
-    LocationData(ACHIEVEMENT.Carrots, 10007, REGION.Loops),
-    LocationData(ACHIEVEMENT.Thousand_Wood, 10008, REGION.Loops),
-    LocationData(ACHIEVEMENT.Pumpkins, 10009, REGION.Loops),
-    LocationData(ACHIEVEMENT.Thousand_Pumpkins, 10010, REGION.Loops),
-    LocationData(ACHIEVEMENT.Feels_Good, 10011, REGION.Start),
-    LocationData(ACHIEVEMENT.Higher_Order_Programming, 10012, REGION.Start),
-    LocationData(ACHIEVEMENT.Sunflowers, 10013, REGION.Measure),
-    LocationData(ACHIEVEMENT.Mud_Farm, 10014, REGION.Loops),
-    LocationData(ACHIEVEMENT.Thousand_Power, 10015, REGION.Measure),
-    LocationData(ACHIEVEMENT.Cacti, 10016, REGION.Swap),
-    LocationData(ACHIEVEMENT.Thousand_Cactus, 10017, REGION.Swap),
-    LocationData(ACHIEVEMENT.Thousand_Gold, 10018, REGION.Fertilizer),
-    LocationData(ACHIEVEMENT.Treasure_Hunter, 10019, REGION.Fertilizer),
-    LocationData(ACHIEVEMENT.Megafarm, 10020, REGION.Fertilizer),
-    LocationData(ACHIEVEMENT.Fashionable, 10021, REGION.Start),
-    # ... I didn't want to add everything yet
-]
+ACHIEVEMENTS: list[LocationData] = []
+
+with open(Path(__file__).resolve().parent / "Data/data.yaml", "r") as file:
+    config_data = safe_load(file)
+for location in config_data["locations"]:
+    ACHIEVEMENTS.append(
+        LocationData(location["name"], location["id"], location["region"], location.get("requirements", None)))
 
 ALL_LOCATIONS: list[LocationData] = (
     ACHIEVEMENTS
@@ -70,7 +53,7 @@ def create_achieve_locations(world: TFWRWorld) -> None:
     # For each region
     regionName: str
     for regionName in REGION.Regions:
-        region:Region = world.get_region(regionName)
+        region: Region = world.get_region(regionName)
         # Get all locations with a matching region
         locations = get_location_names_with_ids(
             [location.name for location in ALL_LOCATIONS if location.region == regionName]

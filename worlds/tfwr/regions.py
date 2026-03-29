@@ -22,13 +22,17 @@ class RegionData:
             self.entrance_name = f"{self.parent} to {self.name}"
 
 
-# This list must be sorted like a hierarchy: Dependent regions come after its dependents
+# This list must be sorted like a hierarchy: Dependent regions come after their parents
 ALL_REGION_DATA: list[RegionData] = [
     RegionData(REGION.Start),
     RegionData(REGION.Loops, REGION.Start, [UPGRADE.Loop]),
-    RegionData(REGION.Swap, REGION.Loops, [UPGRADE.Cactus]),
-    RegionData(REGION.Fertilizer, REGION.Loops, [UPGRADE.Fertilizer]),
-    RegionData(REGION.Measure, REGION.Fertilizer, None),
+    RegionData(REGION.Cactus, REGION.Loops, [UPGRADE.Cactus, UPGRADE.Plant, UPGRADE.Carrot]),
+    RegionData(REGION.Maze, REGION.Loops, [UPGRADE.Fertilizer, UPGRADE.Mazes, UPGRADE.Plant, UPGRADE.Watering]),
+    RegionData(REGION.Sunflower, REGION.Maze, [UPGRADE.Lists, UPGRADE.Plant]),
+    RegionData(REGION.Pumpkins, REGION.Loops, [UPGRADE.Pumpkins, UPGRADE.Plant, UPGRADE.Carrot]),
+    RegionData(REGION.Drones, REGION.Sunflower, [UPGRADE.Megafarm]),
+    RegionData(REGION.Dinos, REGION.Sunflower, [UPGRADE.Dinosaurs, UPGRADE.Plant, UPGRADE.Carrot]),
+    RegionData(REGION.EndGame, REGION.Drones, [UPGRADE.Functions]),
 ]
 
 
@@ -61,8 +65,6 @@ def connect_regions(world: TFWRWorld) -> None:
 
     # probably should cache results from world.get_region?
     regions: dict[str, Region] = {}
-
-    #achievement_region: Region | None = None
 
     regionData: RegionData
     for regionData in ALL_REGION_DATA:
